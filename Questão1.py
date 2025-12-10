@@ -13,7 +13,7 @@ class Reserva:
     nome_passageiro: str
     
     def mostrar_reserva_aviao(self):
-        print(f"Encontrada reserva para avião nº {self.numero_aviao}\n")
+        print(f"-Encontrada reserva para avião nº {self.numero_aviao}\n")
     
     def mostrar_reserva_passageiro(self):
         print(f"-Nome: {self.nome_passageiro}\n ")
@@ -143,7 +143,7 @@ def consulta_aviao(lista_aviao,lista_reservas):
     
     while True:
         try:
-            numero_busca = int(input("Digite o número do Avião no qual você deseja fazer uma reserva"))
+            numero_busca = int(input("Digite o número do Avião que você deseja verificar"))
             break
         except ValueError:
             print("valor inválido")
@@ -166,6 +166,67 @@ def consulta_aviao(lista_aviao,lista_reservas):
             print("Não há reservas para este avião..")
     else:
         print("Avião não encontrado.") 
+
+def consulta_passageiro(lista_aviao,lista_reservas):
+    if verificar_lista(lista_aviao):
+        print("Não há aviões cadastrados.")
+        return
+    if verificar_lista(lista_reservas):
+        print("Não há reservas cadastradas.")
+        return
+    
+    nome_busca = input("digite o nome do passageiro")
+    
+    passageiro_buscar = buscar_passageiro(lista_reservas, nome_busca)
+
+    if passageiro_buscar:
+        print("O passageiro tem reservas nos seguintes aviões:\n")
+        for passageiro in lista_reservas:
+            if passageiro == passageiro_buscar:
+                passageiro.mostrar_reserva_aviao()
+    else:
+        print("Não há reservas para esse passageiro")
+
+while True:
+    try:
+        codigo = int(input("""
+--- Gerenciador Sweet Flight ---
+1- Registrar Aviões
+2- Registrar assentos
+3- Reservar passagem aérea
+4- Realizar consulta por avião
+5- Realizar consulta por passageiro
+6- Sair"""))
+    except ValueError:
+        print("valor inválido")
+        time.sleep(1)
+        os.system("cls")
+        continue
+    
+    match codigo:
+        case 1:
+            add_avioes(lista_aviao)
+            input("")
+            os.system("cls")
+        case 2:
+            add_assentos(lista_assento=lista_assentos, lista_aviao= lista_aviao)
+            input("")
+            os.system("cls")
+        case 3:
+            reservar_passagem(lista_assento=lista_assentos,lista_aviao=lista_aviao,lista_reservas=lista_reservas)
+            input("")
+            os.system("cls")
+        case 4:
+            consulta_aviao(lista_reservas=lista_reservas, lista_aviao= lista_aviao)
+            input("")
+            os.system("cls")
+        case 5:
+            consulta_passageiro(lista_aviao=lista_aviao, lista_reservas=lista_reservas)
+            input("")
+            os.system("cls")
+        case 6:
+            print("encerrando.")
+            break
 
 
 
