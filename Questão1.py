@@ -9,11 +9,14 @@ lista_reservas = []
 
 @dataclass
 class Reserva:
-    numero_aviao: str
+    numero_aviao: int
     nome_passageiro: str
     
-    def mostrar_reserva(self):
-        print(f"Encontrada reserva para avião nº {self.numero_aviao}")
+    def mostrar_reserva_aviao(self):
+        print(f"Encontrada reserva para avião nº {self.numero_aviao}\n")
+    
+    def mostrar_reserva_passageiro(self):
+        print(f"-Nome: {self.nome_passageiro}\n ")
 
 
 
@@ -77,6 +80,21 @@ def buscar_aviao(lista_aviao,numero_buscar):
             return aviao
     return None
 
+def buscar_numero_aviao(lista_reservas,numero_buscar):
+    for aviao in lista_reservas:
+        if aviao.numero_aviao == numero_buscar:
+            return aviao
+    return None
+
+def buscar_passageiro(lista_reservas, nome_buscar):
+    nome_lower = nome_buscar.lower()
+    for passageiro in lista_reservas:
+        if passageiro.nome_passageiro.lower() == nome_lower:
+            return passageiro
+    return None
+
+
+
 
 def reservar_passagem(lista_aviao, lista_assento, lista_reservas):
     if verificar_lista(lista_aviao):
@@ -88,28 +106,69 @@ def reservar_passagem(lista_aviao, lista_assento, lista_reservas):
     while True:
         try:
             numero_busca = int(input("Digite o número do Avião no qual você deseja fazer uma reserva"))
+            break
         except ValueError:
             print("valor inválido")
             time.sleep(1)
             os.system("cls")
             continue
 
-        numero_aviao = buscar_aviao(lista_aviao, numero_busca)
-        if numero_aviao:
-            indice = lista_aviao.index(numero_aviao)
+    numero_aviao = buscar_aviao(lista_aviao, numero_busca)
+    if numero_aviao:
+        indice = lista_aviao.index(numero_aviao)
+        if lista_reservas.numero_aviao.count(numero_aviao) == 20:
+            print("Você atingiu o limite de reservas neste avião")
         else: 
             print("Não há avião cadastrado com esse número.")
             return
-        quantidade_assentos = lista_assento.index(indice)
+    quantidade_assentos = lista_assento.index(indice)
 
-        if quantidade_assentos == 0:
-            print("Não há assentos disponívies para esse avião.")
-        else:
-            reserva = Reserva(nome_passageiro= input("Digite o nome do passageiro.\n"),
+    if quantidade_assentos == 0:
+        print("Não há assentos disponívies para esse avião.")
+    else:
+        reserva = Reserva(nome_passageiro= input("Digite o nome do passageiro.\n"),
                               numero_aviao= numero_busca)
-            lista_reservas.append(reserva)
-            quantidade_assentos -= 1
-            lista_assento.index(indice = quantidade_assentos)
+        lista_reservas.append(reserva)
+        quantidade_assentos -= 1
+        lista_assento.index(indice = quantidade_assentos)
+        print("Reserva realizada com sucesso.")
+
+def consulta_aviao(lista_aviao,lista_reservas):
+    if verificar_lista(lista_aviao):
+        print("Não há aviões cadastrados.")
+        return
+    if verificar_lista(lista_reservas):
+        print("Não há reservas cadastradas.")
+        return
+    
+    while True:
+        try:
+            numero_busca = int(input("Digite o número do Avião no qual você deseja fazer uma reserva"))
+            break
+        except ValueError:
+            print("valor inválido")
+            time.sleep(1)
+            os.system("cls")
+            continue
+    
+    confirm = buscar_aviao(lista_aviao , numero_busca)
+
+    if confirm:
+
+        numero_aviao = buscar_numero_aviao(lista_reservas=lista_reservas,numero_buscar= numero_busca)
+
+        if numero_aviao:
+            print("Os seguintes passageiros têm reserva neste avião:\n")
+            for aviao in lista_reservas:
+                if aviao.numero_aviao == numero_aviao:
+                    aviao.mostrar_reserva_passageiro()
+        else:
+            print("Não há reservas para este avião..")
+    else:
+        print("Avião não encontrado.") 
+
+
+
 
 
 
