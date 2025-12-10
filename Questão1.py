@@ -34,7 +34,6 @@ def add_avioes(lista_aviao):
                 try:
                     aviao = int(input(f"Digite o número do {i+1}º Avião.\n"))
                     lista_aviao.append(aviao)
-                    os.system("cls")
                     break
                 except ValueError:
                     print("Entrada inválida.")
@@ -58,7 +57,6 @@ def add_assentos(lista_assento, lista_aviao):
                 try:
                     quantidade_assentos = int(input(f"Digite o número de assentos disponiveis no avião {lista_aviao[i]}\n"))
                     lista_assento.append(quantidade_assentos)
-                    os.system("cls")
                     break
                 except ValueError:
                     print("Entrada inválida.")
@@ -116,7 +114,8 @@ def reservar_passagem(lista_aviao, lista_assento, lista_reservas):
     numero_aviao = buscar_aviao(lista_aviao, numero_busca)
     if numero_aviao:
         indice = lista_aviao.index(numero_aviao)
-        if lista_reservas.count(numero_aviao) == 20:
+        contagem = lista_reservas.count(numero_busca)
+        if contagem == 20:
             print("Você atingiu o limite de reservas neste avião")
     else: 
         print("Não há avião cadastrado com esse número.")
