@@ -25,41 +25,32 @@ def verificar_lista(lista):
 #Função para adicionar 4 aviões, feita de modo que ela só aceite números e peça novamente caso a pessoa digite um valor inválido
 def add_avioes(lista_aviao):
     if verificar_lista(lista_aviao):
-        contador = 0
         for i in range(4):
-            try:
-                aviao = int(input(f"Digite o número do {i+1}º Avião."))
-                lista_aviao.append(aviao)
-                os.system("cls")
-            except ValueError:
-                print("Entrada inválida.")
-                contador += 1 
-                time.sleep(1)
-                os.system("cls")
-                continue
-    if contador > 0:
-        print("houveram 1 ou mais aviões inválidos.")
-        while True:
-            try:
-                for i in range(contador):
-                    aviao = int(input("Digite o número do avião inválido novamente."))
+            while True:
+                try:
+                    aviao = int(input(f"Digite o número do {i+1}º Avião."))
                     lista_aviao.append(aviao)
-                    contador = contador - 1
                     os.system("cls")
-            except ValueError:
-                print("Entrada inválida.")
-                time.sleep(1)
-                os.system("cls")
-                continue
-            if contador == 0:
-                break
+                    break
+                except ValueError:
+                    print("Entrada inválida.")
+                 
+                    time.sleep(1)
+                    os.system("cls")
+                    continue
+    else:
+        print("4 aviões já estão cadastrados. Reinicie o programa caso deseje recadastrar.")
 
+def add_assentos(lista_assento, lista_aviao):
+    if verificar_lista(lista_aviao):
+        print("Ainda não há aviões cadastrados")
+    
+    if verificar_lista(lista_assento):
+        for i in range(4):
+            quantidade_assentos = int(input("Digite o número de assentos disponiveis"))
 
 
 add_avioes(lista_aviao)
-
-print(f"{lista_aviao}")
-
 
             
 
