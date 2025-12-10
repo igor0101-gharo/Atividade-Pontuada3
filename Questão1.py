@@ -114,9 +114,6 @@ def reservar_passagem(lista_aviao, lista_assento, lista_reservas):
     numero_aviao = buscar_aviao(lista_aviao, numero_busca)
     if numero_aviao:
         indice = lista_aviao.index(numero_aviao)
-        contagem = lista_reservas.count(numero_busca)
-        if contagem == 20:
-            print("Você atingiu o limite de reservas neste avião")
     else: 
         print("Não há avião cadastrado com esse número.")
         return
@@ -187,6 +184,7 @@ def consulta_passageiro(lista_aviao,lista_reservas):
     else:
         print("Não há reservas para esse passageiro")
 
+contagem = 0
 while True:
     try:
         codigo = int(input("""
@@ -213,9 +211,15 @@ while True:
             input("")
             os.system("cls")
         case 3:
-            reservar_passagem(lista_assento=lista_assentos,lista_aviao=lista_aviao,lista_reservas=lista_reservas)
-            input("")
-            os.system("cls")
+            if contagem == 20:
+                print("Você excedeu o limite de reservas.")
+                input("")
+                os.system("cls")
+            else:
+                reservar_passagem(lista_assento=lista_assentos,lista_aviao=lista_aviao,lista_reservas=lista_reservas)
+                contagem += 1
+                input("")
+                os.system("cls")
         case 4:
             consulta_aviao(lista_reservas=lista_reservas, lista_aviao= lista_aviao)
             input("")
